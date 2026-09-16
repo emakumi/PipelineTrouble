@@ -60,7 +60,7 @@ const CONFIG = {
   PARTICLE_LIFE_MS: 550,
   PARTICLE_GRAVITY: 500,
 
-  LOGO_SRC: 'personio-logo.png.png',
+  LOGO_SRC: 'assets/images/personio-logo.png',
 
   COLORS: {
     bg: '#120A2A',
