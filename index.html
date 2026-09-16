@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PIPELINE TROUBLE</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div id="app">
+
+  <!-- START -->
+  <section id="screen-start" class="screen active">
+    <div class="title-wrap">
+      <h1 class="game-title">PIPELINE<br/>TROUBLE</h1>
+      <p class="tagline">Pop the blockers. Reaccelerate the pipeline.</p>
+    </div>
+    <div class="options-panel">
+      <div class="option-group">
+        <span class="option-label">PLAYERS</span>
+        <div class="toggle-row" id="mode-toggle">
+          <button class="btn-toggle" data-mode="single">1 PLAYER</button>
+          <button class="btn-toggle" data-mode="multi">2 PLAYER</button>
+        </div>
+      </div>
+      <div class="option-group">
+        <span class="option-label">BUBBLE SPEED</span>
+        <div class="toggle-row" id="speed-toggle">
+          <button class="btn-toggle" data-speed="slow">SLOW</button>
+          <button class="btn-toggle" data-speed="normal">NORMAL</button>
+          <button class="btn-toggle" data-speed="fast">FAST</button>
+        </div>
+      </div>
+    </div>
+    <div class="menu">
+      <button class="btn btn-primary" id="btn-start-game">START GAME</button>
+      <button class="btn" id="btn-customize">CUSTOMIZE PLAYERS</button>
+      <button class="btn" id="btn-highscores">HIGHSCORES</button>
+      <button class="btn" id="btn-howtoplay">HOW TO PLAY</button>
+      <button class="btn" id="btn-sound">SOUND: ON</button>
+    </div>
+  </section>
+
+  <!-- PLAYER SETUP -->
+  <section id="screen-setup" class="screen">
+    <h2 class="screen-title">PLAYER SETUP</h2>
+    <div class="setup-players">
+      <div class="setup-player" data-player="0">
+        <h3>PLAYER 1</h3>
+        <input type="text" class="player-name-input" maxlength="12" placeholder="P1 NAME" />
+        <div class="avatar-grid" data-player="0"></div>
+        <div class="controls-remap">
+          <div class="remap-row">
+            <span>LEFT</span>
+            <button class="remap-btn" data-action="left">A</button>
+          </div>
+          <div class="remap-row">
+            <span>RIGHT</span>
+            <button class="remap-btn" data-action="right">D</button>
+          </div>
+          <div class="remap-row">
+            <span>SHOOT</span>
+            <button class="remap-btn" data-action="shoot">SPACE</button>
+          </div>
+        </div>
+      </div>
+      <div class="setup-player" data-player="1">
+        <h3>PLAYER 2</h3>
+        <input type="text" class="player-name-input" maxlength="12" placeholder="P2 NAME" />
+        <div class="avatar-grid" data-player="1"></div>
+        <div class="controls-remap">
+          <div class="remap-row">
+            <span>LEFT</span>
+            <button class="remap-btn" data-action="left">ARROWLEFT</button>
+          </div>
+          <div class="remap-row">
+            <span>RIGHT</span>
+            <button class="remap-btn" data-action="right">ARROWRIGHT</button>
+          </div>
+          <div class="remap-row">
+            <span>SHOOT</span>
+            <button class="remap-btn" data-action="shoot">ENTER</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="menu menu-row">
+      <button class="btn btn-primary" id="btn-setup-save">SAVE & CONTINUE</button>
+      <button class="btn" id="btn-setup-back">BACK</button>
+    </div>
+  </section>
+
+  <!-- HOW TO PLAY -->
+  <section id="screen-how" class="screen">
+    <h2 class="screen-title">HOW TO PLAY</h2>
+    <div class="how-content">
+      <div class="how-step">
+        <span class="how-emoji">🔫⬆️🔴</span>
+        <span class="how-text">SHOOT THE BALLS</span>
+      </div>
+      <div class="how-step">
+        <span class="how-emoji">🔴💥🟡🟡</span>
+        <span class="how-text">BIG BALLS BREAK INTO SMALL ONES</span>
+      </div>
+      <div class="how-step">
+        <span class="how-emoji">🟡💥💰</span>
+        <span class="how-text">POP THEM ALL TO WIN MONEY</span>
+      </div>
+      <div class="how-step">
+        <span class="how-emoji">🙅‍♂️🔴😵</span>
+        <span class="how-text">DON'T TOUCH A BALL!</span>
+      </div>
+      <div class="how-step">
+        <span class="how-emoji">🏆💶💶💶</span>
+        <span class="how-text">GET &euro;100,000 TO WIN</span>
+      </div>
+      <div class="how-controls" id="how-controls"></div>
+    </div>
+    <div class="menu">
+      <button class="btn btn-primary" id="btn-how-back">BACK</button>
+    </div>
+  </section>
+
+  <!-- GAME -->
+  <section id="screen-game" class="screen">
+    <div class="hud">
+      <div class="hud-left">
+        <div class="hud-mrr">CLOSED WON <span id="hud-mrr">&euro;0</span> / &euro;100K</div>
+        <div class="hud-mrr-bar"><div class="hud-mrr-bar-fill" id="hud-mrr-fill"></div></div>
+        <div class="hud-lives-row">
+          <span class="hud-lives-label">LIVES</span>
+          <canvas id="hud-lives-canvas" width="90" height="24"></canvas>
+        </div>
+      </div>
+      <div class="hud-center">
+        <div class="hud-timer" id="hud-timer">QUARTER 01:00</div>
+        <div class="hud-blockers">BLOCKERS REMOVED: <span id="hud-blockers">0</span></div>
+      </div>
+      <div class="hud-right" id="hud-players"></div>
+    </div>
+    <div class="canvas-wrap">
+      <canvas id="game-canvas" width="960" height="600"></canvas>
+      <button class="btn-pause" id="btn-pause" title="Pause">❚❚</button>
+      <div class="pause-overlay" id="pause-overlay" hidden>
+        <div class="pause-box">
+          <h2>PAUSED</h2>
+          <button class="btn btn-primary" id="btn-resume">RESUME</button>
+          <button class="btn" id="btn-pause-quit">QUIT TO MENU</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCORECARD -->
+  <section id="screen-scorecard" class="screen">
+    <h2 class="screen-title" id="scorecard-headline">QUARTER CLOSED</h2>
+    <div class="scorecard-summary" id="scorecard-summary"></div>
+    <div class="scorecard-players" id="scorecard-players"></div>
+    <div class="menu menu-row">
+      <button class="btn btn-primary" id="btn-play-again">PLAY AGAIN</button>
+      <button class="btn" id="btn-change-players">CHANGE PLAYERS</button>
+      <button class="btn" id="btn-sc-highscores">HIGHSCORES</button>
+      <button class="btn" id="btn-sc-home">HOME</button>
+    </div>
+  </section>
+
+  <!-- HIGHSCORES -->
+  <section id="screen-highscores" class="screen">
+    <h2 class="screen-title">HIGHSCORES</h2>
+    <div class="highscores-list" id="highscores-list"></div>
+    <div class="menu">
+      <button class="btn btn-primary" id="btn-hs-back">BACK</button>
+    </div>
+  </section>
+
+</div>
+
+<script src="config.js"></script>
+<script src="assets.js"></script>
+<script src="storage.js"></script>
+<script src="audio.js"></script>
+<script src="input.js"></script>
+<script src="entities.js"></script>
+<script src="score.js"></script>
+<script src="game.js"></script>
+<script src="ui.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
